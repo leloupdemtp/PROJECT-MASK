@@ -139,7 +139,7 @@ MonoBehaviour:
   - {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   - {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  MaskTopCount: 1
+  MaskTopCount: 0
   _rendererMiddle: {fileID: 4954127892187316794}
   _maskMiddle:
   - {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}

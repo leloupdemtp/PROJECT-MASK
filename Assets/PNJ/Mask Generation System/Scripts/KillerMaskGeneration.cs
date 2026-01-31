@@ -10,15 +10,10 @@ public class KillerMaskGeneration : MonoBehaviour
     [SerializeField]
     private List<MaskGeneration> _otherMaskGeneration = new List<MaskGeneration>();
 
-    // void Start()
-    // {
-    //     for (int i = 0; i < _otherMaskGeneration.Count; i++)
-    //     {
-    //         VerifyMaskGeneration(i);
-    //     }
-    //     _maskGeneration.RandomizeMask();
-    //     
-    // }
+    void Start()
+    {
+        GenerateKillerMask();
+    }
 
     [ContextMenu("GenerateKillerMask")]
     void GenerateKillerMask()
