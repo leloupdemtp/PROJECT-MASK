@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections;       
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine.InputSystem;
+
 
 public class OpenDialogue : MonoBehaviour
 {

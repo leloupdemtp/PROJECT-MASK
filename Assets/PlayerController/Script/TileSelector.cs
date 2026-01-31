@@ -1,64 +1,82 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
 
 public class TileSelector : MonoBehaviour
 {
-    private const float _minPos = 0.5f;
-    private const float _maxPos = 4.5f;
-
-    private Vector3 _startPosition = new Vector3(0.5f, 0.5f, 1.0f);
+    private float _minPos = 2
+        ;
+    private float _maxPos = -2;
+    
+    private Vector2 _startPos;
 
     public UnityEvent OnSelected;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        transform.position = _startPosition;
-    }
 
+    
+    private void Awake()
+    {
+        // Position de départ = centre du carré 5x5
+        _startPos = transform.localPosition;
+    }
+    
     public void SelectTile(InputAction.CallbackContext obj)
     {
         if (obj.performed)
         {
             Debug.Log("TileSelected");
-            RaycastHit hitTarget;
+            
             // Create raycast ray.
-            Vector3 origin = new Vector3(transform.position.x, transform.position.y, 0.0f);
-            Vector3 destination = new Vector3(transform.position.x, transform.position.y, -10.0f);
-
+            Vector3 origin = transform.position;
+            Vector3 destination = new Vector3(0,0, 1);
+            
+            
+            
+            RaycastHit2D hit = Physics2D.Raycast(origin, destination, 10);
             // Cast a raycast and check result.
-            if(Physics.Raycast(origin, destination, out hitTarget))
+            
+            
+            
+            if(hit)
             {
-                if (hitTarget.collider.GetComponent<IPNJ>() != null)
+                OpenDialogue openDialogue; 
+                if (hit.collider.TryGetComponent<OpenDialogue>(out openDialogue))
                 {
-                    OnSelected.Invoke();
+                    Debug.Log(openDialogue);
+                    openDialogue.StartDialogue();
                 }
             }
             else
             {
                 Debug.Log("No target");
             }
-        
         }
     }
 
     public void TileSelectorMove(InputAction.CallbackContext obj)
     {
-        Vector2 playerInput = obj.ReadValue<Vector2>();
-        
-        if (obj.performed)
-        {
-            // Move the selection
-            transform.position += new Vector3(Mathf.Ceil(playerInput.x), Mathf.Ceil(playerInput.y), 0.0f);
-            // Clamp selection's position
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x, _minPos, _maxPos),
-                Mathf.Clamp(transform.position.y, _minPos, _maxPos), 0.0f);
-                
-            Debug.Log("the selected position is: " + transform.position);
-        }
+        if (!obj.performed)
+            return;
+
+        Vector2 input = obj.ReadValue<Vector2>();
+
+        Vector2 move = new Vector2(
+            Mathf.RoundToInt(input.x),
+            Mathf.RoundToInt(input.y)
+        );
+
+        // Nouvelle position
+        Vector2 newPos = (Vector2)transform.localPosition + move;
+
+        // Clamp autour de la position de départ (centre)
+        newPos.x = Mathf.Clamp(newPos.x, _startPos.x - 2, _startPos.x + 2);
+        newPos.y = Mathf.Clamp(newPos.y, _startPos.y - 2, _startPos.y + 2);
+
+        transform.localPosition = newPos;
+
+        Debug.Log("Position sélectionnée : " + newPos);
     }
     
 
