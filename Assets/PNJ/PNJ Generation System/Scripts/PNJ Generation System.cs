@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,15 +7,20 @@ using Random = UnityEngine.Random;
 public class PNJGenerationSystem : MonoBehaviour
 {
     [SerializeField]
-    private List<Vector2> _positionsPNJ;
+    private List<Vector2> _positionsPNJ = new List<Vector2>();
     
-    public List<Vector2> PnjToDelete;
+    public List<Vector2> PnjToDelete = new List<Vector2>();
     
     [SerializeField]
     private int _numberPNJ;
     
     [SerializeField]
     private GameObject _prefab;
+
+    private void Start()
+    {
+        GeneratePNJ();
+    }
 
     [ContextMenu("Generate")]
     public void GeneratePNJ()
@@ -25,7 +31,7 @@ public class PNJGenerationSystem : MonoBehaviour
             GameObject s = Instantiate(_prefab, PnjToDelete[r], Quaternion.identity);
             _positionsPNJ.Add(PnjToDelete[r]);
             PnjToDelete.RemoveAt(r);
-            s.GetComponent<MaskGeneration>().RandomizeMask();
+            s.GetComponentInChildren<MaskGeneration>().RandomizeMask();
         }
     } 
 
