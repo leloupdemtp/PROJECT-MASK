@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +7,9 @@ using Random = UnityEngine.Random;
 public class PNJGenerationSystem : MonoBehaviour
 {
     [SerializeField]
-    private List<Vector2> _positionsPNJ;
+    private List<Vector2> _positionsPNJ = new List<Vector2>();
     
-    public List<Vector2> PnjToDelete;
+    public List<Vector2> PnjToDelete = new List<Vector2>();
     
     [SerializeField]
     private int _numberPNJ;
@@ -16,16 +17,27 @@ public class PNJGenerationSystem : MonoBehaviour
     [SerializeField]
     private GameObject _prefab;
 
+    private void Start()
+    {
+        GeneratePNJ();
+    }
+
     [ContextMenu("Generate")]
     public void GeneratePNJ()
     {
         for (int i = 0; i < _numberPNJ; i++)
         {
             int r = Random.Range(0, PnjToDelete.Count);
-            GameObject s = Instantiate(_prefab, PnjToDelete[r], Quaternion.identity);
+            GameObject s = Instantiate(_prefab, PnjToDelete[r], Quaternion.identity, this.transform);
             _positionsPNJ.Add(PnjToDelete[r]);
             PnjToDelete.RemoveAt(r);
-            s.GetComponent<MaskGeneration>().RandomizeMask();
+            s.GetComponentInChildren<MaskGeneration>().GenerateRandom();
+            OpenDialogue dialogue = s.GetComponentInChildren<OpenDialogue>();
+            if (dialogue != null)
+            {
+                string assignedDialogue = RandomDialogueAssigner.Instance.AssignDialogueToPNJ();
+                dialogue.SetDialogue(assignedDialogue);
+            }
         }
     } 
 
