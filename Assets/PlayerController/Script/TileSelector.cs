@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 
 public class TileSelector : MonoBehaviour
@@ -26,7 +27,7 @@ public class TileSelector : MonoBehaviour
     {
         if (obj.performed)
         {
-            _isTalking = true;
+           
             Debug.Log("TileSelected");
             
             // Create raycast ray.
@@ -42,9 +43,11 @@ public class TileSelector : MonoBehaviour
             
             if(hit)
             {
+                ChangeRoomArrow changeRoomArrow;
                 OpenDialogue openDialogue; 
                 if (hit.collider.TryGetComponent<OpenDialogue>(out openDialogue))
                 {
+                    _isTalking = true;
                     hit.collider.TryGetComponent<KillPNJ>(out _killPNJ);
                     
                     if (openDialogue._isActive == false)
@@ -57,7 +60,11 @@ public class TileSelector : MonoBehaviour
                         _isTalking = false;
                     }
                 }
-                
+                if (hit.collider.TryGetComponent<ChangeRoomArrow>(out changeRoomArrow))
+                {
+                    changeRoomArrow.ChangeRoom();
+                }
+
             }
             else
             {
