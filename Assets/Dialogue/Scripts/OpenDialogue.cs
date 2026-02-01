@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;       
+using System.Collections;
 using TMPro;
 using UnityEngine.InputSystem;
 
@@ -18,26 +18,32 @@ public class OpenDialogue : MonoBehaviour
 
     public bool _isActive;
 
+    private AudioSource _talkingAudioSource;
+
 
     private void Start()
     {
         DialogueBox.enabled = false;
+        _talkingAudioSource = transform.GetComponent<AudioSource>();
     }
+
+
+
 
     public void StopDialogue()
     {
-            if (Dialoguetext.text == Dialoguelines[_index])
-            {
-                NextLine();
-            }
-            else
-            {
-                StopAllCoroutines();
-                Dialoguetext.text = Dialoguelines[_index];
-            }
-        
+        if (Dialoguetext.text == Dialoguelines[_index])
+        {
+            NextLine();
+        }
+        else
+        {
+            StopAllCoroutines();
+            Dialoguetext.text = Dialoguelines[_index];
+        }
+
     }
-    
+
     [ContextMenu("Start Dialogue")]
     public void StartDialogue()
     {
@@ -50,7 +56,7 @@ public class OpenDialogue : MonoBehaviour
             Dialoguetext.text = string.Empty;
             StartCoroutine(TypeLine());
         }
-      
+
     }
 
     private IEnumerator TypeLine()
@@ -58,7 +64,9 @@ public class OpenDialogue : MonoBehaviour
         foreach (char c in Dialoguelines[_index].ToCharArray())
         {
             Dialoguetext.text += c;
+           
             yield return new WaitForSeconds(-Textspeed);
+            _talkingAudioSource.Play();
         }
         yield return new WaitForSeconds(0.1f);
         _isActive = false;
