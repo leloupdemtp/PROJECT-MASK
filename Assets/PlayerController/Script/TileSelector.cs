@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Events;
 
 
 public class TileSelector : MonoBehaviour
@@ -10,8 +9,6 @@ public class TileSelector : MonoBehaviour
     private float _maxPos = -2;
     
     private Vector2 _startPos;
-
-    public UnityEvent OnSelected;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -44,9 +41,16 @@ public class TileSelector : MonoBehaviour
                 OpenDialogue openDialogue; 
                 if (hit.collider.TryGetComponent<OpenDialogue>(out openDialogue))
                 {
-                    Debug.Log(openDialogue);
-                    openDialogue.StartDialogue();
+                    if (openDialogue._isActive == false)
+                    {
+                        openDialogue.StartDialogue();
+                    }
+                    else
+                    {
+                        openDialogue.StopDialogue();
+                    }
                 }
+                
             }
             else
             {

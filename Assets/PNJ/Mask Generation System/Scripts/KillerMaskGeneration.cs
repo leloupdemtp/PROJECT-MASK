@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,15 @@ public class KillerMaskGeneration : MonoBehaviour
     [SerializeField]
     private List<MaskGeneration> _otherMaskGeneration = new List<MaskGeneration>();
 
+    private void Awake()
+    {
+        MaskGeneration[] Masks = FindObjectsOfType<MaskGeneration>();
+        foreach (MaskGeneration Mask in Masks)
+        {
+            _otherMaskGeneration.Add(Mask);
+        }
+       
+    }
     void Start()
     {
         GenerateKillerMask();

@@ -1,29 +1,36 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class MaskGeneration : MonoBehaviour
 {
-public SpriteRenderer _rendererTop;
+public Image _rendererTop;
     
 [SerializeField]
 private List<Sprite> _maskTop;
 
 public int MaskTopCount;
 
-public SpriteRenderer _rendererMiddle;
+public Image _rendererMiddle;
 
 [SerializeField]
 private List<Sprite> _maskMiddle;
 
 public int MaskMiddleCount;
 
-public SpriteRenderer _rendererBottom;
+public Image _rendererBottom;
 
 [SerializeField]
 private List<Sprite> _maskBottom;
 
 public int MaskBottomCount;
 
+
+private void Start()
+{
+    GenerateMask();
+}
 
 private void GenerateMask()
 {

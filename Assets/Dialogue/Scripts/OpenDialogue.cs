@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;       
 using TMPro;
+using UnityEngine.InputSystem;
 
 
 public class OpenDialogue : MonoBehaviour
@@ -15,16 +16,16 @@ public class OpenDialogue : MonoBehaviour
 
     private int _index;
 
+    public bool _isActive;
+
 
     private void Start()
     {
         DialogueBox.enabled = false;
     }
 
-    private void Update()
+    public void StopDialogue()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
             if (Dialoguetext.text == Dialoguelines[_index])
             {
                 NextLine();
@@ -34,15 +35,22 @@ public class OpenDialogue : MonoBehaviour
                 StopAllCoroutines();
                 Dialoguetext.text = Dialoguelines[_index];
             }
-        }
+        
     }
+    
     [ContextMenu("Start Dialogue")]
     public void StartDialogue()
     {
-        DialogueBox.enabled = true;
-        _index = 0;
-        Dialoguetext.text = string.Empty;
-        StartCoroutine(TypeLine());
+        if (_isActive == false)
+        {
+            _isActive = true;
+            Debug.Log("je fait qqc");
+            DialogueBox.enabled = true;
+            _index = 0;
+            Dialoguetext.text = string.Empty;
+            StartCoroutine(TypeLine());
+        }
+      
     }
 
     private IEnumerator TypeLine()
@@ -52,6 +60,8 @@ public class OpenDialogue : MonoBehaviour
             Dialoguetext.text += c;
             yield return new WaitForSeconds(-Textspeed);
         }
+        yield return new WaitForSeconds(0.1f);
+        _isActive = false;
     }
 
     private void NextLine()
