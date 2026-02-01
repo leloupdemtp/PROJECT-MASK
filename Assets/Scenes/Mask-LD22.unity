@@ -8026,6 +8026,10 @@ PrefabInstance:
       propertyPath: rendererMiddle
       value: 
       objectReference: {fileID: 478418527}
+    - target: {fileID: 1737340468223621586, guid: 9335493d745c36449bd83454c58bbe04, type: 3}
+      propertyPath: _isActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
