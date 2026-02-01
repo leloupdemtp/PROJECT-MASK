@@ -17,10 +17,11 @@ public class RandomDialogueAssigner : MonoBehaviour
     // Liste globale pour l'UI des indices collectés
     public List<string> collectedClues = new List<string>();
 
-    private void Awake()
+    private void Start()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+       killerMask = FindFirstObjectByType<KillerMaskGeneration>();
     }
 
     // Appelé au moment où un PNJ est instancié

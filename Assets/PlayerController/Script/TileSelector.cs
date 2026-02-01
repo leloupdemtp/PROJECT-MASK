@@ -53,6 +53,7 @@ public class TileSelector : MonoBehaviour
                     if (openDialogue._isActive == false)
                     {
                         openDialogue.StartDialogue();
+                        _isTalking = false;
                     }
                     else
                     {

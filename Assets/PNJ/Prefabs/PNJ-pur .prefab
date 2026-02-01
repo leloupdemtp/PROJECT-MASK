@@ -1021,7 +1021,7 @@ MonoBehaviour:
   DialogueBox: {fileID: 9047776853616992121}
   Dialoguelines:
   - PetitTestIci
-  Textspeed: -0.1
+  Textspeed: 0.1
   _isActive: 0
 --- !u!114 &6351930878935462051
 MonoBehaviour:
@@ -1035,6 +1035,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8af71982773d594c9ba980b57897ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnKillEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &8297599334370323688
 BoxCollider2D:
   m_ObjectHideFlags: 0
