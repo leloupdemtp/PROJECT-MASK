@@ -1,10 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WinCondition : MonoBehaviour
 {
     [SerializeField] private Timer Timer;
-    [SerializeField] public Button RestartButton;
     public Canvas WinUI;
     public Canvas LoseUI;
     private void Start()
@@ -36,5 +36,6 @@ public class WinCondition : MonoBehaviour
     {
         WinUI.enabled = true;
     }
+    
 
 }

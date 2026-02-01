@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 
 public class TileSelector : MonoBehaviour
@@ -11,7 +12,10 @@ public class TileSelector : MonoBehaviour
     private Vector2 _startPos;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
+    
+    private KillPNJ _killPNJ;
+    
+    private bool _isTalking = false;
     
     private void Awake()
     {
@@ -23,6 +27,7 @@ public class TileSelector : MonoBehaviour
     {
         if (obj.performed)
         {
+           
             Debug.Log("TileSelected");
             
             // Create raycast ray.
@@ -38,9 +43,13 @@ public class TileSelector : MonoBehaviour
             
             if(hit)
             {
+                ChangeRoomArrow changeRoomArrow;
                 OpenDialogue openDialogue; 
                 if (hit.collider.TryGetComponent<OpenDialogue>(out openDialogue))
                 {
+                    _isTalking = true;
+                    hit.collider.TryGetComponent<KillPNJ>(out _killPNJ);
+                    
                     if (openDialogue._isActive == false)
                     {
                         openDialogue.StartDialogue();
@@ -48,9 +57,14 @@ public class TileSelector : MonoBehaviour
                     else
                     {
                         openDialogue.StopDialogue();
+                        _isTalking = false;
                     }
                 }
-                
+                if (hit.collider.TryGetComponent<ChangeRoomArrow>(out changeRoomArrow))
+                {
+                    changeRoomArrow.ChangeRoom();
+                }
+
             }
             else
             {
@@ -59,8 +73,18 @@ public class TileSelector : MonoBehaviour
         }
     }
 
+    public void KillAction(InputAction.CallbackContext obj)
+    {
+        if (obj.performed)
+        {
+            _killPNJ.Kill();
+        }
+    }
+    
     public void TileSelectorMove(InputAction.CallbackContext obj)
     {
+        if (_isTalking)
+            return;
         if (!obj.performed)
             return;
 
