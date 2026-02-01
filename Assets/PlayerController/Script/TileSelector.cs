@@ -11,7 +11,10 @@ public class TileSelector : MonoBehaviour
     private Vector2 _startPos;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
+    
+    private KillPNJ _killPNJ;
+    
+    private bool _isTalking = false;
     
     private void Awake()
     {
@@ -23,6 +26,7 @@ public class TileSelector : MonoBehaviour
     {
         if (obj.performed)
         {
+            _isTalking = true;
             Debug.Log("TileSelected");
             
             // Create raycast ray.
@@ -41,6 +45,8 @@ public class TileSelector : MonoBehaviour
                 OpenDialogue openDialogue; 
                 if (hit.collider.TryGetComponent<OpenDialogue>(out openDialogue))
                 {
+                    hit.collider.TryGetComponent<KillPNJ>(out _killPNJ);
+                    
                     if (openDialogue._isActive == false)
                     {
                         openDialogue.StartDialogue();
@@ -48,6 +54,7 @@ public class TileSelector : MonoBehaviour
                     else
                     {
                         openDialogue.StopDialogue();
+                        _isTalking = false;
                     }
                 }
                 
@@ -59,8 +66,18 @@ public class TileSelector : MonoBehaviour
         }
     }
 
+    public void KillAction(InputAction.CallbackContext obj)
+    {
+        if (obj.performed)
+        {
+            _killPNJ.Kill();
+        }
+    }
+    
     public void TileSelectorMove(InputAction.CallbackContext obj)
     {
+        if (_isTalking)
+            return;
         if (!obj.performed)
             return;
 
