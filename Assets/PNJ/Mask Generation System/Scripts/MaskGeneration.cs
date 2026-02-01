@@ -5,54 +5,53 @@ using Random = UnityEngine.Random;
 
 public class MaskGeneration : MonoBehaviour
 {
-public Image _rendererTop;
+    [Header("Top")]
+    public Image rendererTop;
+    public List<MaskClue> topClues = new();
+
+    [Header("Middle")]
+    public Image rendererMiddle;
+    public List<MaskClue> middleClues = new();
+
+    [Header("Bottom")]
+    public Image rendererBottom;
+    public List<MaskClue> bottomClues = new();
     
-[SerializeField]
-private List<Sprite> _maskTop;
+    public List<string> GenerateWithClues()
+    {
+        List<string> clues = new();
 
-public int MaskTopCount;
+        MaskClue top = PickRandom(topClues);
+        MaskClue middle = PickRandom(middleClues);
+        MaskClue bottom = PickRandom(bottomClues);
 
-public Image _rendererMiddle;
+        ApplyMask(top.sprite, middle.sprite, bottom.sprite);
 
-[SerializeField]
-private List<Sprite> _maskMiddle;
+        clues.Add(top.clue);
+        clues.Add(middle.clue);
+        clues.Add(bottom.clue);
 
-public int MaskMiddleCount;
+        return clues;
+    }
+    
+    public void GenerateRandom()
+    {
+        MaskClue top = PickRandom(topClues);
+        MaskClue middle = PickRandom(middleClues);
+        MaskClue bottom = PickRandom(bottomClues);
 
-public Image _rendererBottom;
+        ApplyMask(top.sprite, middle.sprite, bottom.sprite);
+    }
 
-[SerializeField]
-private List<Sprite> _maskBottom;
+    private MaskClue PickRandom(List<MaskClue> list)
+    {
+        return list[Random.Range(0, list.Count)];
+    }
 
-public int MaskBottomCount;
-
-
-private void Start()
-{
-    GenerateMask();
-}
-
-private void GenerateMask()
-{
-    _rendererTop.sprite = _maskTop[MaskTopCount];
-    _rendererMiddle.sprite = _maskMiddle[MaskMiddleCount];
-    _rendererBottom.sprite = _maskBottom[MaskBottomCount];
-}
-
-[ContextMenu("Generate Mask")]
-public void RandomizeMask()
-{
-    MaskTopCount = Random.Range(0, _maskTop.Count);
-    MaskMiddleCount = Random.Range(0, _maskMiddle.Count);
-    MaskBottomCount = Random.Range(0, _maskBottom.Count);
-    GenerateMask();
-}
-
-
- 
-
-
-
- 
- 
+    private void ApplyMask(Sprite top, Sprite middle, Sprite bottom)
+    {
+        rendererTop.sprite = top;
+        rendererMiddle.sprite = middle;
+        rendererBottom.sprite = bottom;
+    }
 }

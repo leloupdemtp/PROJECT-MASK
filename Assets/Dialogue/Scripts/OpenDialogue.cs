@@ -23,20 +23,7 @@ public class OpenDialogue : MonoBehaviour
     {
         DialogueBox.enabled = false;
     }
-
-    public void StopDialogue()
-    {
-            if (Dialoguetext.text == Dialoguelines[_index])
-            {
-                NextLine();
-            }
-            else
-            {
-                StopAllCoroutines();
-                Dialoguetext.text = Dialoguelines[_index];
-            }
-        
-    }
+    
     
     [ContextMenu("Start Dialogue")]
     public void StartDialogue()
@@ -78,5 +65,36 @@ public class OpenDialogue : MonoBehaviour
             DialogueBox.enabled = false;
         }
     }
+    public void SetDialogue(string text)
+    {
+        if (Dialoguetext != null)
+        {
+            // Remplace tout le tableau par ce dialogue unique
+            Dialoguelines = new string[] { text };
+            _index = 0;
+            Dialoguetext.text = string.Empty; // reset affichage
+        }
+        else
+        {
+            Debug.LogWarning("OpenDialogue : Dialoguetext non assigné sur " + gameObject.name);
+        }
+    }
+
+    public void StopDialogue()
+    {
+        if (Dialoguetext.text == Dialoguelines[_index])
+        {
+            // Collecte l'indice si c'est un dialogue du tueur
+            RandomDialogueAssigner.Instance.CollectClue(Dialoguelines[_index]);
+
+            NextLine();
+        }
+        else
+        {
+            StopAllCoroutines();
+            Dialoguetext.text = Dialoguelines[_index];
+        }
+    }
+
 }
 

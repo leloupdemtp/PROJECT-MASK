@@ -31,7 +31,13 @@ public class PNJGenerationSystem : MonoBehaviour
             GameObject s = Instantiate(_prefab, PnjToDelete[r], Quaternion.identity);
             _positionsPNJ.Add(PnjToDelete[r]);
             PnjToDelete.RemoveAt(r);
-            s.GetComponentInChildren<MaskGeneration>().RandomizeMask();
+            s.GetComponentInChildren<MaskGeneration>().GenerateRandom();
+            OpenDialogue dialogue = s.GetComponentInChildren<OpenDialogue>();
+            if (dialogue != null)
+            {
+                string assignedDialogue = RandomDialogueAssigner.Instance.AssignDialogueToPNJ();
+                dialogue.SetDialogue(assignedDialogue);
+            }
         }
     } 
 
