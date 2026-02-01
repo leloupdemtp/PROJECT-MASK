@@ -1,7 +1,8 @@
 using UnityEngine;
-using System.Collections;       
+using System.Collections;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 
 public class OpenDialogue : MonoBehaviour
@@ -9,6 +10,8 @@ public class OpenDialogue : MonoBehaviour
     public TextMeshProUGUI Dialoguetext;
 
     public Canvas DialogueBox;
+
+    public UnityEvent OnLetterShow;
 
     public string[] Dialoguelines;
 
@@ -23,8 +26,8 @@ public class OpenDialogue : MonoBehaviour
     {
         DialogueBox.enabled = false;
     }
-    
-    
+
+
     [ContextMenu("Start Dialogue")]
     public void StartDialogue()
     {
@@ -37,13 +40,15 @@ public class OpenDialogue : MonoBehaviour
             Dialoguetext.text = string.Empty;
             StartCoroutine(TypeLine());
         }
-      
+
     }
 
     private IEnumerator TypeLine()
     {
         foreach (char c in Dialoguelines[_index].ToCharArray())
         {
+            OnLetterShow.Invoke();
+
             Dialoguetext.text += c;
             yield return new WaitForSeconds(-Textspeed);
         }
