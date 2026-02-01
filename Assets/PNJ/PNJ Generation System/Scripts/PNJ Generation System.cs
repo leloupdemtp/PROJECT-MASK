@@ -28,7 +28,7 @@ public class PNJGenerationSystem : MonoBehaviour
         for (int i = 0; i < _numberPNJ; i++)
         {
             int r = Random.Range(0, PnjToDelete.Count);
-            GameObject s = Instantiate(_prefab, PnjToDelete[r], Quaternion.identity);
+            GameObject s = Instantiate(_prefab, PnjToDelete[r], Quaternion.identity, this.transform);
             _positionsPNJ.Add(PnjToDelete[r]);
             PnjToDelete.RemoveAt(r);
             s.GetComponentInChildren<MaskGeneration>().GenerateRandom();
